@@ -1,25 +1,25 @@
 import React from 'react';
 import './App.css';
+// import { Route, Switch } from 'react-router-dom'
+import Home from './components/Home.js';
 
 class App extends React.Component {
-  state = {
-    users: []
-  }
-
-  componentDidMount(){
-    fetch('http://localhost:3000/users')
-    .then(resp => resp.json())
-    .then(users => {
-      debugger
-      this.setState({users})
-    })
-  }
+  
 
   render(){
     return (
-      <div>
-        
-      </div>
+      <div >
+        <Home/>
+      {/* <Switch>
+
+        <Route exact path={'/'} component={Login} />
+        <Route path={'/'} component={} />
+        <Route path={'/'} component={} />
+        <Route path={'/'} component={} />
+        <Route path={'*'} component={} />
+
+      </Switch>  */}
+    </div>
     );
   }
 }
