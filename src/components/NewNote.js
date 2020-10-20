@@ -1,16 +1,68 @@
 import React from 'react'
 import NavBar from './NavBar.js'
+import { Form } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { addNote } from '../actions/notes'
 
 class NewNote extends React.Component {
-    
-    render(){
+  state = {
+    title:'',
+    content:'', 
+    user_id: this.props.user.id,  
+    favorite: false 
+  }
+  
+  handleChange = (e) => {
+    this.setState({
+    [e.target.name]: e.target.value 
+    })
+    console.log(this.props.user.id)
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const reqObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }, 
+      body: JSON.stringify(this.state)
+    } 
+    fetch('http://localhost:3000/notes', reqObj)
+    .then(resp => resp.json())
+    .then(newNote => {
+      this.props.addNote(newNote)
+      this.props.history.push('/home')
+      alert('New note added!')
+    })
+  }
+
+  render(){
+      const { value } = this.state
       return (
         <div>
             <NavBar/>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group widths='equal'>
+                <Form.Input fluid label='Title' placeholder='Title' name='title' onChange={this.handleChange}/>
+              </Form.Group>
+              <Form.TextArea label='Content' placeholder='Write your note here...' name='content' onChange={this.handleChange}/>
+              <Form.Button>Submit</Form.Button>
+            </Form>
             {/* Form that includes input for title field and content field with a submit button. Submit should submit post request, alert the user of new submission and link to either the new show page or the home page */}
         </div>
       );
     }
   }
   
-  export default NewNote;
+  const mapStatetoProps = (state) => {
+    return { 
+      user: state.user
+    }
+  }
+  
+  const mapDispatchToProps = {
+    addNote
+  }
+
+  export default connect(mapStatetoProps, mapDispatchToProps)(NewNote);
