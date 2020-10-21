@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, Form } from 'semantic-ui-react'
+// import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchUserSuccess } from '../actions/user'
@@ -7,8 +8,8 @@ import { fetchUserSuccess } from '../actions/user'
 class Login extends React.Component {
 
   state = {
-    username: 'jjenkins120',
-    password: 123
+    username: '',
+    password: ''
   }
 
   handleChange = (e) => {
@@ -29,52 +30,59 @@ class Login extends React.Component {
     fetch('http://localhost:3000/users/sessions/login', reqObj)
     .then(resp => resp.json())
     .then(user => {
+      if (user.error){
+        alert(user.error)
+      } else {
       this.props.fetchUserSuccess(user)
       this.props.history.push('/home')
+      }
     })
   }
 
-  // handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   fetch('http://localhost:3000/users')
-  //   .then(resp => resp.json())
-  //   .then(users => {
-  //     const currentUser = users.find(userObj => {
-  //       if ((userObj.username === this.state.username) && (userObj.password === this.state.password)){
-  //         return userObj
-  //       } 
-  //     })
-  //     if (!currentUser){
-  //         alert("Username or Password is not valid!")
-  //     }
-  //       this.props.fetchUserSuccess(currentUser)
-  //       this.props.history.push('/home')
-  //   })
-  // }
-    
-    render(){
-      return (
-        <div>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Field>
-              <label>Username</label>
-              <input placeholder='Username' value={this.state.username} name='username' onChange={this.handleChange}/>
-            </Form.Field>
-            <Form.Field>
-              <label>Password</label>
-              <input type='password' placeholder='Password' value={this.state.password} name='password' onChange={this.handleChange}/>
-            </Form.Field>
-            <Button type='submit'>Login</Button>
-              {/* <Link to='/home'>Login</Link> */}
-          </Form>
-          Don't have a profile? Create one <Link to='/newuser'>here</Link>.
-            {/* form to login in with username and password, upon submission linked to the home page */}
-            {/* STRETCH: link to create a profile */}
-            {/* STRETCH: user facebook or google login */}
-        </div>
-      );
-    }
+  render(){
+    return(
+      <div>
+        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='teal' textAlign='center'>
+              <Image src='' size='large'/> 
+            </Header>
+            <Form size='large' onSubmit={this.handleSubmit}>
+              <Segment stacked>
+                <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name='username' onChange={this.handleChange}/>
+                <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleChange}/>
+                <Form.Button color='blue' fluid size='large'> Login </Form.Button>
+              </Segment>
+            </Form>
+            <Message>
+              New to us? <Link to='/newuser'>Sign up</Link>.
+            </Message>
+          </Grid.Column>
+        </Grid>
+      </div>
+    )
   }
+  }
+
+
+  // <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+  //   <Grid.Column style={{ maxWidth: 450 }}>
+  //     <Header as='h2' color='teal' textAlign='center'>
+  //       <Image src='/logo.png' /> Log-in to your account
+  //     </Header>
+  //     <Form size='large' onSubmit={this.handleSubmit}>
+  //       <Segment stacked>
+  //         <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name='username' onChange={this.handleChange}/>
+  //         <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleChange}/>
+  //         <Form.Button color='teal' fluid size='large'> Login </Form.Button>
+  //       </Segment>
+  //     </Form>
+  //     <Message>
+  //       New to us? <Link to='/newuser'>Sign up</Link>.
+  //     </Message>
+  //   </Grid.Column>
+  // </Grid>
+
   
 
   const mapDispatchToProps = {

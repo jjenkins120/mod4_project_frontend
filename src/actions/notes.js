@@ -21,9 +21,22 @@ export const addNote = (note) => {
     }
 }
 
-export const updateNote = (id) => {
+export const updateNote = (note) => {
     return {
         type: 'UPDATE_NOTE',
+        note: note
+    }
+}
+
+export const noteLogout = () => {
+    return {
+        type: 'NOTE_LOGOUT',
+    }
+}
+
+export const addLike = (id) => {
+    return {
+        type: 'ADD_LIKE',
         id: id
     }
 }

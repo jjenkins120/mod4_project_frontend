@@ -1,17 +1,81 @@
 import React from 'react'
+import { Form, Button, Grid } from 'semantic-ui-react' 
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { newUser } from '../actions/user'
+
 
 class NewUser extends React.Component {
     
+    state = {
+        username: '',
+        password: '',
+        first_name: '',
+        last_name: ''
+      }
+    
+      handleChange = (e) => {
+        this.setState({
+          [e.target.name]: e.target.value
+        })
+      }
+    
+      handleSubmit = (e) => {
+        e.preventDefault()
+        const reqObj = {
+          method: 'POST',
+          headers: {
+            'Content-Type':'application/json'
+          },
+          body: JSON.stringify(this.state)
+        }
+        console.log(this.state.id)
+        console.log(this.state)
+        fetch(`http://localhost:3000/users/`, reqObj)
+        .then(resp => resp.json())
+        .then(newUser => {
+          console.log(newUser)
+          this.props.newUser(newUser)
+          this.props.history.push('/home')
+          alert(`Thanks for signing up!`)
+        })
+      }
+
     render(){
       return (
         <div>
-            New User form <br/>
-            {/* Form that includes all user fields, upon submission user is taken to the home page */}
-            Already have an account? <Link to='/'>Go Back</Link>.
+        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+            <Grid.Column style={{ maxWidth: 600, margin: 50 }} >
+                <Form onSubmit={this.handleSubmit}>
+                <Form.Group widths='equal'>
+                    <Form.Input fluid label='Username' name='username' value={this.state.username} onChange={this.handleChange}/>
+                    <Form.Input label='Password' name='password' value={this.state.password} onChange={this.handleChange}/>
+                    <Form.Input label='First Name' name='first_name' value={this.state.first_name} onChange={this.handleChange}/>
+                    <Form.Input label='Last Name' name='last_name' value={this.state.last_name} onChange={this.handleChange}/>
+                </Form.Group>
+                <Button.Group>
+                    <Form.Button>Submit</Form.Button>
+                        <Button.Or />
+                    <Link to={`/`}><Button>Back</Button></Link>
+                    </Button.Group>
+                </Form>
+            </Grid.Column>
+        </Grid>     
+            {/* Form (opportunity to replicate real world where you click to edit next to each field)that includes all user fields populated with the current users information, upon submission user is alerted that the profile is updated and they are taken to the home page */}
+            {/* field to include deleting the profile that will send a delete request to the BE */}
         </div>
       );
     }
   }
   
-  export default NewUser;
+  const mapStateToProps = (state) => {
+    return { 
+      user: state.user
+    }
+  }
+  
+  const mapDispatchToProps = {
+    newUser
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(NewUser);

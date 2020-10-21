@@ -1,6 +1,6 @@
 import React from 'react'
 import NavBar from "./NavBar.js"
-import NoteContainer from "./NoteSection/NoteContainer.js"
+import NoteContainer from "./NoteContainer.js"
 import { connect } from 'react-redux'
 import { fetchNotesSuccess } from '../actions/notes'
 import user from '../reducers/user.js'

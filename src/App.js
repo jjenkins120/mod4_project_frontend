@@ -22,8 +22,8 @@ class App extends React.Component {
         <Route path={'/editnote'} component={EditNote} />
         <Route path={'/shownote'} component={ShowNote} />
         <Route path={'/new'} component={NewNote} />
-        <Route path={'/edituser/:id'} component={EditUser} />
-        <Route path={'/newuser/:id'} component={NewUser} />
+        <Route path={'/edituser'} component={EditUser} />
+        <Route path={'/newuser'} component={NewUser} />
         <Route path={'*'} component={Error} />
       </Switch> 
     </div>

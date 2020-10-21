@@ -2,7 +2,7 @@ import React from 'react'
 import NoteTile from "./NoteTile.js"
 import NoteFilter from "./NoteFilter.js"
 import { connect } from 'react-redux'
-import { Menu, Input, Button, Segment } from 'semantic-ui-react'
+import { Menu, Input, Button, Segment, Grid } from 'semantic-ui-react'
 
 
 class NoteContainer extends React.Component {
@@ -62,6 +62,8 @@ class NoteContainer extends React.Component {
 
     return (
       <div>
+      <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+        <Grid.Column style={{ maxWidth: 600, margin: 50 }} >
         <Menu attached='top' tabular>
           <Menu.Item
             name='All Notes'
@@ -93,39 +95,23 @@ class NoteContainer extends React.Component {
 
         <Segment attached='bottom'>
           <Segment.Group>
-             <NoteFilter/>
+             {/* <NoteFilter/> */}
              {/* NoteTiles go here */}
              {/* Add pagenation functionality for button below */}
                <Segment.Group>
                  {this.tabDisplay(searchedNotes)}
                  {/* {this.state.activeItem === "All Notes" ? this.renderNotes(searchedNotes) : this.renderFavorites(searchedNotes)} */}
                </Segment.Group>
-             <Button>See more notes</Button>
+             <Button style={{ margin: 20 }} color='blue'>See more notes</Button>
              {/* STRETCH: Add a functionality to filter by favorites, dated created, edited, and tags */}
            </Segment.Group>
         </Segment>
+        </Grid.Column>
+      </Grid>
       </div>
     )
   }
 }
-
-//   render(){
-//     return (
-//       <div>
-//         <Segment.Group>
-//           <NoteFilter/>
-//           {/* NoteTiles go here */}
-//           {/* Add pagenation functionality for button below */}
-//             <Segment.Group>
-//               {this.renderNotes()}
-//             </Segment.Group>
-//           <Button>See more notes</Button>
-//           {/* STRETCH: Add a functionality to filter by favorites, dated created, edited, and tags */}
-//         </Segment.Group>
-//       </div>
-//     );
-//   }
-// }
 
 const mapStatetoProps = (state) => {
   return { 

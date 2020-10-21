@@ -2,28 +2,40 @@ import React from 'react'
 import NavBar from "./NavBar.js"
 import { connect } from 'react-redux'
 import { updateNote } from '../actions/notes'
-import { Form } from 'semantic-ui-react'
+import { Form, Button, Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class EditNote extends React.Component {
   
   //NEED TO FIGURE OUT HOW TO POPULATE FORM VALUES WITH THE NOTE INFORMATION TO BEGIN WITH - MIGHT BE ABLE TO PULL IT FROM THE PROPS THAT ARE PASSED DOWN
   
   state = {
+    id:'',
     title:'',
     content:'', 
-    user_id: '',  
+    user_id: this.props.user.id,  
     favorite: false 
   }
 
-  // foundNote = () => {
-  //   const splitArray = this.props.location.pathname.split("/")
-  //   const Id = parseInt(splitArray[splitArray.length - 1])
-  //   const foundNote = this.props.notes.find(noteObj => {
-  //     if (noteObj.id === Id){
-  //       return noteObj
-  //     }
-  //   })
-  // }
+  componentDidMount(){
+    this.foundNote()
+  }
+
+  foundNote = () => {
+    const splitArray = this.props.location.pathname.split("/")
+    const Id = parseInt(splitArray[splitArray.length - 1])
+    const foundNote = this.props.notes.find(noteObj => {
+      if (noteObj.id === Id){
+        return noteObj
+      }
+    })
+    this.setState({
+      id: foundNote.id,
+      title: foundNote.title, 
+      content: foundNote.content, 
+      favorite: false 
+    })
+  }
 
   handleChange = (e) => {
     this.setState({
@@ -31,7 +43,7 @@ class EditNote extends React.Component {
     })
   }
 
-  handleSubmit = (e, id) => {
+  handleSubmit = (e) => {
     e.preventDefault()
     const reqObj = {
       method: 'PATCH',
@@ -40,34 +52,42 @@ class EditNote extends React.Component {
       },
       body: JSON.stringify(this.state)
     }
-    fetch(`http://localhost:3000/${id}`, reqObj)
+    console.log(this.state.id)
+    console.log(this.state)
+    fetch(`http://localhost:3000/notes/${this.state.id}`, reqObj)
     .then(resp => resp.json())
     .then(updatedNote => {
+      console.log(updatedNote)
       this.props.updateNote(updatedNote)
       this.props.history.push('/home')
-      alert(`"${updatedNote.title}" updated!`)
+      alert(`Note updated!`)
     })
   }
 
   render(){
-    const splitArray = this.props.location.pathname.split("/")
-    const Id = parseInt(splitArray[splitArray.length - 1])
-    const foundNote = this.props.notes.find(noteObj => {
-      if (noteObj.id === Id){
-        return noteObj
-      }
-    })
+    // this.foundNote()
+    // const splitArray = this.props.location.pathname.split("/")
+    // const Id = parseInt(splitArray[splitArray.length - 1])
+    // const foundNote = this.props.notes.find(noteObj => {
+    //   if (noteObj.id === Id){
+    //     return noteObj
+    //   }
+    // })
       return (
         <div>
             <NavBar/>
-            <Form onSubmit={(e) => this.handleSubmit(e, Id)}>
+            
+            <Form onSubmit={this.handleSubmit}>
               <Form.Group widths='equal'>
-                <Form.Input fluid label='Title' placeholder='Title' name='title' value={foundNote.title} onChange={this.handleChange}/>
+                <Form.Input fluid label='Title' placeholder='Title' name='title' value={this.state.title} onChange={this.handleChange}/>
               </Form.Group>
-              <Form.TextArea label='Content' placeholder='Write your note here...' name='content' value={foundNote.content} onChange={this.handleChange}/>
-              <Form.Button>Update</Form.Button>
+              <Form.TextArea label='Content' placeholder='Write your note here...' name='content' value={this.state.content} onChange={this.handleChange}/>
+              <Button.Group>
+                <Form.Button primary>Update</Form.Button>
+              <Button.Or />
+                <Link to={`/shownote/${this.state.id}`}><Button secondary>Back</Button></Link>
+              </Button.Group>
             </Form>
-            {/* Form with title and content information already populated. Update button at the bottom should send patch request, alert the user that note has been updated and link to either the home page or the show page */}
         </div>
       );
     }

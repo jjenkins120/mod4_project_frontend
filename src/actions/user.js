@@ -1,8 +1,27 @@
 
 export const fetchUserSuccess = (user) => {
-    console.log(user)
     return {
         type: 'FETCH_USER_SUCCESS', 
         user: user
+    }
+}
+
+export const updateUser = (user) => {
+    return {
+        type: 'UPDATE_USER',
+        user: user
+    }
+}
+
+export const newUser = (user) => {
+    return {
+        type: 'NEW_USER',
+        user: user
+    }
+}
+
+export const userLogout = () => {
+    return {
+        type: 'USER_LOGOUT'
     }
 }

@@ -1,50 +1,30 @@
-// import React from 'react'
-
-// class NavBar extends React.Component {
-    
-//     render(){
-//       return (
-//         <div>
-//             {/* includes app title that links to home page, with notes and profile dropdowns */}
-//             {/* notes dropdown includes create a new note, and my notes(maybe my favorite notes too) */}
-//             {/* profile dropdown includes edit my profile that links to the SeeEditProfile.js, and sign out which takes the user back to the login page */}
-//         </div>
-//       );
-//     }
-//   }
-  
-//   export default NavBar;
 
 import React, { Component } from 'react'
-import { Menu, Segment, Dropdown } from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
+import { Menu, Segment, Dropdown, Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { userLogout } from '../actions/user'
+import { noteLogout } from '../actions/notes'
 
-export default class NavBar extends Component {
-  // state = { activeItem: 'home' }
-
-  // handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+class NavBar extends Component {
+  
+  handleClick = () => {
+    this.props.userLogout()
+    this.props.noteLogout()
+  }
 
   render() {
-    // const { activeItem } = this.state
-
     return (
       <div>
         <Menu pointing secondary>
-          <Menu.Item>
-            <Link to='/home'>Home</Link>
-          </Menu.Item>
+          <Link to='/home'><Menu.Item icon> <Icon name='sticky note outline'/></Menu.Item></Link>
           <Menu.Menu position='right'>
             <Dropdown item text='Options'>
               <Dropdown.Menu>
-                <Dropdown.Item>
-                  <Link to='/new'>Create New Note</Link>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                <Link to='/edituser'>Edit My Profile</Link>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                <Link to='/'>Logout</Link>
-                </Dropdown.Item>
+                <Link to='/home'><Dropdown.Item>See Notes</Dropdown.Item></Link>
+                <Link to='/new'><Dropdown.Item>Create New Note</Dropdown.Item></Link>
+                <Link to={`/edituser/${this.props.user.id}`}><Dropdown.Item>Edit My Profile</Dropdown.Item></Link>
+                <Link to='/'><Dropdown.Item onClick={this.handleClick}>Logout</Dropdown.Item></Link>
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Menu>
@@ -53,3 +33,17 @@ export default class NavBar extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return { 
+    notes: state.notes,
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = {
+  userLogout,
+  noteLogout
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
