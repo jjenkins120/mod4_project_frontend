@@ -17,7 +17,7 @@ class NavBar extends Component {
     return (
       <div>
         <Menu pointing secondary>
-          <Link to='/home'><Menu.Item icon> <Icon name='sticky note outline'/></Menu.Item></Link>
+    <Link to='/home'><Menu.Item icon> <Icon name='sticky note outline' size='large' style={{ marginRight: 10 }}/>Welcome, {this.props.user.username}</Menu.Item></Link>
           <Menu.Menu position='right'>
             <Dropdown item text='Options'>
               <Dropdown.Menu>

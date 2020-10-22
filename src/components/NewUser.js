@@ -29,9 +29,8 @@ class NewUser extends React.Component {
           },
           body: JSON.stringify(this.state)
         }
-        console.log(this.state.id)
         console.log(this.state)
-        fetch(`http://localhost:3000/users/`, reqObj)
+        fetch(`http://localhost:3000/users`, reqObj)
         .then(resp => resp.json())
         .then(newUser => {
           console.log(newUser)
@@ -49,10 +48,14 @@ class NewUser extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                 <Form.Group widths='equal'>
                     <Form.Input fluid label='Username' name='username' value={this.state.username} onChange={this.handleChange}/>
-                    <Form.Input label='Password' name='password' value={this.state.password} onChange={this.handleChange}/>
+                </Form.Group>
+                <Form.Group widths='equal'>
+                    <Form.Input label='Password' name='password' type='password' value={this.state.password} onChange={this.handleChange}/>
+                </Form.Group>
+                <Form.Group widths='equal'>
                     <Form.Input label='First Name' name='first_name' value={this.state.first_name} onChange={this.handleChange}/>
                     <Form.Input label='Last Name' name='last_name' value={this.state.last_name} onChange={this.handleChange}/>
-                </Form.Group>
+                </Form.Group>    
                 <Button.Group>
                     <Form.Button>Submit</Form.Button>
                         <Button.Or />

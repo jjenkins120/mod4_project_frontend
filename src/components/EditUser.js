@@ -50,16 +50,20 @@ class EditUser extends React.Component {
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 600, margin: 50 }} >
                     <Form onSubmit={this.handleSubmit}>
-                        <Form.Group widths='equal' >
+                        <Form.Group widths='equal'>
                             <Form.Input fluid label='Username' name='username' value={this.state.username} onChange={this.handleChange}/>
+                        </Form.Group>
+                        <Form.Group widths='equal'>   
                             <Form.Input label='Password' placeholder='Enter New Password' name='password' value={this.state.password} onChange={this.handleChange}/>
-                            <Form.Input label='First Name' name='first_name' value={this.state.first_name} onChange={this.handleChange}/>
+                        </Form.Group>
+                        <Form.Group widths='equal'>    
+                            <Form.Input label='First Name' name='first_name' value={this.state.first_name} onChange={this.handleChange}/>  
                             <Form.Input label='Last Name' name='last_name' value={this.state.last_name} onChange={this.handleChange}/>
                         </Form.Group>
-                        <Button.Group>
+                        <Button.Group style={{ margin: 20 }}>
                             <Form.Button>Update</Form.Button>
                         <Button.Or />
-                        <Link to={`/home`}><Button>Home</Button></Link>
+                            <Link to={`/home`}><Button>Home</Button></Link>
                         </Button.Group>
                     </Form>
                 </Grid.Column>

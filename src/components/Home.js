@@ -3,7 +3,7 @@ import NavBar from "./NavBar.js"
 import NoteContainer from "./NoteContainer.js"
 import { connect } from 'react-redux'
 import { fetchNotesSuccess } from '../actions/notes'
-import user from '../reducers/user.js'
+
 
 
 class Home extends React.Component {
@@ -35,7 +35,7 @@ class Home extends React.Component {
   const mapStatetoProps = (state) => {
     return { 
       notes: state.notes,
-      user: state.user
+      // user: state.user
     }
   }
 

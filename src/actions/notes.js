@@ -40,3 +40,10 @@ export const addLike = (id) => {
         id: id
     }
 }
+
+export const changeFavorite = (id) => {
+    return {
+        type: 'CHANGE_FAVORITE',
+        id: id
+    }
+}

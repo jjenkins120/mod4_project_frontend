@@ -9,7 +9,8 @@ class Login extends React.Component {
 
   state = {
     username: '',
-    password: ''
+    password: '',
+    error: null
   }
 
   handleChange = (e) => {
@@ -27,11 +28,14 @@ class Login extends React.Component {
       }, 
       body: JSON.stringify(this.state)
     }
+    console.log(this.state)
     fetch('http://localhost:3000/users/sessions/login', reqObj)
     .then(resp => resp.json())
     .then(user => {
       if (user.error){
-        alert(user.error)
+        this.setState ({
+          error: user.error 
+        })
       } else {
       this.props.fetchUserSuccess(user)
       this.props.history.push('/home')
@@ -44,13 +48,14 @@ class Login extends React.Component {
       <div>
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as='h2' color='teal' textAlign='center'>
-              <Image src='' size='large'/> 
+            <Header as='h2' color='blue' textAlign='center'>
+              <Image src='https://lh3.googleusercontent.com/proxy/Tc_K71aUEuJLlVmMcfnLE15fW0man02mZvxaR5FttFXNb9Zwp3aQWC-3gCMpw6dzkekrS45rvoBBVo5LCPkW5XHBMnpN1WEt6DB7MkgF4VTldrAKcPnwsuNIXT1PTbvCSo4ISsp5aLBtUd-fGXHKCfjAroY' size='massive'/><br/>Redux Note 
+              { this.state.error && <h3 style={{ color: 'red'}}>{this.state.error}</h3> }
             </Header>
             <Form size='large' onSubmit={this.handleSubmit}>
               <Segment stacked>
                 <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name='username' onChange={this.handleChange}/>
-                <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleChange}/>
+                <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' name='password' type='password' onChange={this.handleChange}/>
                 <Form.Button color='blue' fluid size='large'> Login </Form.Button>
               </Segment>
             </Form>

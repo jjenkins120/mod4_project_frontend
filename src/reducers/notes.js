@@ -34,6 +34,15 @@ const notes = (state=initialState, action) => {
                 }
             })
             return notesWithAddedLikes
+        case "CHANGE_FAVORITE":
+            const notesWithChangedFavorites = state.map(noteObj => {
+                if (noteObj.id === action.id){
+                    return {...noteObj, favorite: !noteObj.favorite}
+                } else {
+                    return noteObj
+                }
+            })
+            return notesWithChangedFavorites
         default:
             return state
     }

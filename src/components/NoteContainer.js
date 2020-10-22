@@ -2,7 +2,7 @@ import React from 'react'
 import NoteTile from "./NoteTile.js"
 import NoteFilter from "./NoteFilter.js"
 import { connect } from 'react-redux'
-import { Menu, Input, Button, Segment, Grid } from 'semantic-ui-react'
+import { Menu, Input, Button, Segment, Grid, Pagination } from 'semantic-ui-react'
 
 
 class NoteContainer extends React.Component {
@@ -94,17 +94,26 @@ class NoteContainer extends React.Component {
         </Menu>
 
         <Segment attached='bottom'>
-          <Segment.Group>
+          {/* <Segment.Group> */}
              {/* <NoteFilter/> */}
              {/* NoteTiles go here */}
              {/* Add pagenation functionality for button below */}
-               <Segment.Group>
-                 {this.tabDisplay(searchedNotes)}
+               {/* <Segment.Group> */}
+              {this.tabDisplay(searchedNotes)}
                  {/* {this.state.activeItem === "All Notes" ? this.renderNotes(searchedNotes) : this.renderFavorites(searchedNotes)} */}
-               </Segment.Group>
+               {/* </Segment.Group> */}
              <Button style={{ margin: 20 }} color='blue'>See more notes</Button>
+             {/* <Pagination
+                boundaryRange={0}
+                defaultActivePage={1}
+                ellipsisItem={null}
+                firstItem={null}
+                lastItem={null}
+                siblingRange={1}
+                totalPages={10}
+              /> */}
              {/* STRETCH: Add a functionality to filter by favorites, dated created, edited, and tags */}
-           </Segment.Group>
+           {/* </Segment.Group> */}
         </Segment>
         </Grid.Column>
       </Grid>

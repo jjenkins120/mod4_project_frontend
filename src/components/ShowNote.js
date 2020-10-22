@@ -1,18 +1,22 @@
 import React from 'react'
 import NavBar from './NavBar.js'
-import { Button, Icon } from 'semantic-ui-react'
+import { Button, Icon, Segment, Grid, Reveal } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { deleteNote } from '../actions/notes'
+import { changeFavorite } from '../actions/notes'
 
 class ShowNote extends React.Component {
     
   state = {
     id:'',
     title:'',
-    content:'', 
-    user_id: this.props.user.id,  
-    favorite: false 
+    content:'',
+    created:'',
+    updated:'',
+    likes:'', 
+    user_id: '',  
+    favorite: ''
   }
 
   componentDidMount(){
@@ -30,11 +34,40 @@ class ShowNote extends React.Component {
     this.setState({
       id: foundNote.id,
       title: foundNote.title, 
-      content: foundNote.content, 
-      favorite: false 
+      content: foundNote.content,
+      created: foundNote.created_at,
+      updated: foundNote.updated_at,
+      likes: foundNote.likes,
+      favorite: foundNote.favorite,
+      user_id: foundNote.user_id 
     })
   }
 
+  isFavorite = () => {
+    return this.state.favorite ? "One of your favorites" : "Not one of your favorites"
+  }
+
+  handleFavClick = (id) => {
+    const updatedNote = {
+      favorite: !this.state.favorite
+    }
+    const reqObj = {
+      method: 'PATCH', 
+      headers: {
+        'Content-Type': 'application/json'
+      }, 
+      body: JSON.stringify(updatedNote)
+    }
+    fetch(`http://localhost:3000/notes/${id}`, reqObj)
+    .then(resp => resp.json())
+    .then((updatedNote) => {
+      //THE FOLLOWING NEEDS TO BE RESOLVED
+      this.props.changeFavorite(updatedNote.id)
+      this.setState({
+        favorite: !this.state.favorite
+      })
+    })
+  }
 
   handleDelClick = (id) => {
     const reqObj = {
@@ -49,17 +82,66 @@ class ShowNote extends React.Component {
     })
   } 
 
+  createdAt = () => {
+    const createdAtArray = this.state.created.slice(0,-5).split("T")
+    const date = createdAtArray[0]
+    const time = createdAtArray[1]
+    return `${date} at ${time}` 
+  }
+
   render(){
       return (
         <div>
             <NavBar/>
-            {this.state.title}<br/>
-            {this.state.content}
-            {}
-            <br/>
-            <Link to={`/editnote/${this.state.id}`}><Button icon><Icon name='edit outline'/>Edit</Button></Link>
-            <Button onClick={() => this.handleDelClick(this.state.id)} icon><Icon name='delete'/>Delete</Button>
-            <Link to={`/home`}><Button icon><Icon name='arrow circle left'/>Back</Button></Link>
+            <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+              <Grid.Column style={{ maxWidth: 600, margin: 50 }} >
+            <Segment.Group>
+            <Segment textAlign='center' style={{ fontSize: "large"}}><b>{this.state.title}</b></Segment>
+            <Segment.Group>
+              <Segment textAlign='left'><b>Content: </b>{this.state.content}</Segment>
+              <Segment textAlign='left'><b>Created On: </b>{this.createdAt()}</Segment>
+              <Segment textAlign='left'><b>Likes: </b>{this.state.likes}</Segment>
+              <Segment textAlign='left'><b>Status: </b>{this.isFavorite()}</Segment>
+            </Segment.Group>
+            <Segment.Group textAlign='center'>
+              <Button.Group style={{ margin: 30 }} textAlign='center'>
+                <Reveal animated='move down'>
+                  <Reveal.Content visible>
+                    <Button style={{ marginLeft: 5, marginRight: 5, width: 100}}><Icon name='edit outline' style={{color:'black'}} /></Button>
+                  </Reveal.Content>
+                  <Reveal.Content hidden>
+                  <Link to={`/editnote/${this.state.id}`}><Button style={{width: 100}}>Edit</Button></Link>
+                  </Reveal.Content>
+                </Reveal>
+                <Reveal animated='move down'>
+                  <Reveal.Content visible>
+                    <Button icon style={{ marginLeft: 5, marginRight: 5, width: 100}}><Icon name='delete' style={{color:'red'}}/></Button>
+                  </Reveal.Content>
+                  <Reveal.Content hidden>
+                    <Button style={{width: 100}} onClick={() => this.handleDelClick(this.state.id)}>Delete</Button>  
+                  </Reveal.Content>
+                </Reveal>
+                <Reveal animated='move down'>
+                  <Reveal.Content visible>
+                    <Button icon style={{ marginLeft: 5, marginRight: 5, width: 100}}><Icon name='arrow circle left' style={{color:'blue'}}/></Button>
+                  </Reveal.Content>
+                  <Reveal.Content hidden>
+                    <Link to={`/home`}><Button style={{width: 100}}>Home</Button></Link>  
+                  </Reveal.Content>
+                </Reveal>
+                <Reveal animated='move down'>
+                  <Reveal.Content visible>
+                    <Button icon style={{ marginLeft: 5, marginRight: 5, width: 100}} ><Icon name='favorite' style={{color:'yellow'}}/></Button>
+                  </Reveal.Content>
+                  <Reveal.Content hidden>
+                    <Button style={{width: 100}} onClick={() => this.handleFavClick(this.state.id)}>Favorite?</Button> 
+                  </Reveal.Content>
+                </Reveal>    
+              </Button.Group>
+            </Segment.Group>
+          </Segment.Group>
+          </Grid.Column>
+          </Grid>
             {/* Shows the title of the note and the note contents  */}
             {/* Shows the created by date and last date edited */}
             {/* includes link to home page, link to edit page, and option to delete the note */}
@@ -72,6 +154,14 @@ class ShowNote extends React.Component {
     }
   }
   
+  
+
+  
+  
+
+
+
+
   const mapStateToProps = (state) => {
     return { 
       notes: state.notes,
@@ -80,7 +170,8 @@ class ShowNote extends React.Component {
   }
   
   const mapDispatchToProps = {
-    deleteNote
+    deleteNote, 
+    changeFavorite
   }
 
   export default connect(mapStateToProps, mapDispatchToProps)(ShowNote);
