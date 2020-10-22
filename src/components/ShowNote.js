@@ -4,7 +4,7 @@ import { Button, Icon, Segment, Grid, Reveal } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { deleteNote } from '../actions/notes'
-import { changeFavorite } from '../actions/notes'
+import { changeFavorite } from '../actions/notes' 
 
 class ShowNote extends React.Component {
     
@@ -89,6 +89,14 @@ class ShowNote extends React.Component {
     return `${date} at ${time}` 
   }
 
+  showEditBtn = () => {
+    console.log(this.props.user)
+    console.log(this.props.user.id)
+    console.log(this.state.user_id)
+    return this.props.user && (this.props.user.id === this.state.user_id) ? <Reveal animated='move down'><Reveal.Content visible><Button style={{ marginLeft: 5, marginRight: 5, width: 100}}><Icon name='edit outline' style={{color:'black'}} /></Button></Reveal.Content><Reveal.Content hidden><Link to={`/editnote/${this.state.id}`}><Button style={{width: 100, color: "black"}}>Edit</Button></Link></Reveal.Content></Reveal> : null
+  }
+
+
   render(){
       return (
         <div>
@@ -105,28 +113,21 @@ class ShowNote extends React.Component {
             </Segment.Group>
             <Segment.Group textAlign='center'>
               <Button.Group style={{ margin: 30 }} textAlign='center'>
+                {this.showEditBtn()}
                 <Reveal animated='move down'>
                   <Reveal.Content visible>
-                    <Button style={{ marginLeft: 5, marginRight: 5, width: 100}}><Icon name='edit outline' style={{color:'black'}} /></Button>
+                    <Button icon style={{ marginLeft: 5, marginRight: 5, width: 100 }}><Icon name='delete' style={{color:'red'}}/></Button>
                   </Reveal.Content>
                   <Reveal.Content hidden>
-                  <Link to={`/editnote/${this.state.id}`}><Button style={{width: 100}}>Edit</Button></Link>
+                    <Button style={{width: 100, color: "black"}} onClick={() => this.handleDelClick(this.state.id)}>Delete</Button>  
                   </Reveal.Content>
                 </Reveal>
                 <Reveal animated='move down'>
                   <Reveal.Content visible>
-                    <Button icon style={{ marginLeft: 5, marginRight: 5, width: 100}}><Icon name='delete' style={{color:'red'}}/></Button>
+                    <Button icon style={{ marginLeft: 5, marginRight: 5, width: 100 }}><Icon name='arrow circle left' style={{color:'blue'}}/></Button>
                   </Reveal.Content>
                   <Reveal.Content hidden>
-                    <Button style={{width: 100}} onClick={() => this.handleDelClick(this.state.id)}>Delete</Button>  
-                  </Reveal.Content>
-                </Reveal>
-                <Reveal animated='move down'>
-                  <Reveal.Content visible>
-                    <Button icon style={{ marginLeft: 5, marginRight: 5, width: 100}}><Icon name='arrow circle left' style={{color:'blue'}}/></Button>
-                  </Reveal.Content>
-                  <Reveal.Content hidden>
-                    <Link to={`/home`}><Button style={{width: 100}}>Home</Button></Link>  
+                    <Link to={`/home`}><Button style={{width: 100, color: "black"}}>Home</Button></Link>  
                   </Reveal.Content>
                 </Reveal>
                 <Reveal animated='move down'>
@@ -134,7 +135,7 @@ class ShowNote extends React.Component {
                     <Button icon style={{ marginLeft: 5, marginRight: 5, width: 100}} ><Icon name='favorite' style={{color:'yellow'}}/></Button>
                   </Reveal.Content>
                   <Reveal.Content hidden>
-                    <Button style={{width: 100}} onClick={() => this.handleFavClick(this.state.id)}>Favorite?</Button> 
+                    <Button style={{width: 100, color: "black"}} onClick={() => this.handleFavClick(this.state.id)}>Favorite?</Button> 
                   </Reveal.Content>
                 </Reveal>    
               </Button.Group>
@@ -142,25 +143,10 @@ class ShowNote extends React.Component {
           </Segment.Group>
           </Grid.Column>
           </Grid>
-            {/* Shows the title of the note and the note contents  */}
-            {/* Shows the created by date and last date edited */}
-            {/* includes link to home page, link to edit page, and option to delete the note */}
-            {/* STRETCH: add a heart icon to add to favorites */}
-            {/* STRETCH: add a tag */}
-            {/* STRETCH: add a send as email option */}
-            {/* STRETCH: add a share with user option */}
         </div>
       );
     }
   }
-  
-  
-
-  
-  
-
-
-
 
   const mapStateToProps = (state) => {
     return { 

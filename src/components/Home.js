@@ -8,9 +8,6 @@ import { fetchNotesSuccess } from '../actions/notes'
 
 class Home extends React.Component {
     
-    // state = {
-    //     notes: []
-    //   }
   
     componentDidMount(){
         fetch('http://localhost:3000/notes')
@@ -34,8 +31,7 @@ class Home extends React.Component {
 
   const mapStatetoProps = (state) => {
     return { 
-      notes: state.notes,
-      // user: state.user
+      notes: state.notes
     }
   }
 

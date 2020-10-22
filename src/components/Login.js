@@ -1,6 +1,5 @@
 import React from 'react'
-// import { Button, Form } from 'semantic-ui-react'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchUserSuccess } from '../actions/user'
@@ -49,46 +48,25 @@ class Login extends React.Component {
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as='h2' color='blue' textAlign='center'>
-              <Image src='https://lh3.googleusercontent.com/proxy/Tc_K71aUEuJLlVmMcfnLE15fW0man02mZvxaR5FttFXNb9Zwp3aQWC-3gCMpw6dzkekrS45rvoBBVo5LCPkW5XHBMnpN1WEt6DB7MkgF4VTldrAKcPnwsuNIXT1PTbvCSo4ISsp5aLBtUd-fGXHKCfjAroY' size='massive'/><br/>Redux Note 
-              { this.state.error && <h3 style={{ color: 'red'}}>{this.state.error}</h3> }
+            Redux <Icon name='file text outline' size='massive' style={{ marginLeft: 5}}/>Note 
             </Header>
+            { this.state.error && <h3 style={{ color: 'red'}}>{this.state.error}</h3> }
             <Form size='large' onSubmit={this.handleSubmit}>
-              <Segment stacked>
+              <Segment>
                 <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name='username' onChange={this.handleChange}/>
                 <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' name='password' type='password' onChange={this.handleChange}/>
                 <Form.Button color='blue' fluid size='large'> Login </Form.Button>
               </Segment>
             </Form>
             <Message>
-              New to us? <Link to='/newuser'>Sign up</Link>.
+              New to us? <Link to='/newuser'> Sign up</Link>.
             </Message>
           </Grid.Column>
         </Grid>
       </div>
     )
   }
-  }
-
-
-  // <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-  //   <Grid.Column style={{ maxWidth: 450 }}>
-  //     <Header as='h2' color='teal' textAlign='center'>
-  //       <Image src='/logo.png' /> Log-in to your account
-  //     </Header>
-  //     <Form size='large' onSubmit={this.handleSubmit}>
-  //       <Segment stacked>
-  //         <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' name='username' onChange={this.handleChange}/>
-  //         <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleChange}/>
-  //         <Form.Button color='teal' fluid size='large'> Login </Form.Button>
-  //       </Segment>
-  //     </Form>
-  //     <Message>
-  //       New to us? <Link to='/newuser'>Sign up</Link>.
-  //     </Message>
-  //   </Grid.Column>
-  // </Grid>
-
-  
+}
 
   const mapDispatchToProps = {
     fetchUserSuccess

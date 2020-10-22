@@ -43,33 +43,31 @@ class NewUser extends React.Component {
     render(){
       return (
         <div>
-        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-            <Grid.Column style={{ maxWidth: 600, margin: 50 }} >
-                <Form onSubmit={this.handleSubmit}>
-                <Form.Group widths='equal'>
-                    <Form.Input fluid label='Username' name='username' value={this.state.username} onChange={this.handleChange}/>
-                </Form.Group>
-                <Form.Group widths='equal'>
-                    <Form.Input label='Password' name='password' type='password' value={this.state.password} onChange={this.handleChange}/>
-                </Form.Group>
-                <Form.Group widths='equal'>
-                    <Form.Input label='First Name' name='first_name' value={this.state.first_name} onChange={this.handleChange}/>
-                    <Form.Input label='Last Name' name='last_name' value={this.state.last_name} onChange={this.handleChange}/>
-                </Form.Group>    
-                <Button.Group>
-                    <Form.Button>Submit</Form.Button>
-                        <Button.Or />
-                    <Link to={`/`}><Button>Back</Button></Link>
-                    </Button.Group>
-                </Form>
-            </Grid.Column>
-        </Grid>     
-            {/* Form (opportunity to replicate real world where you click to edit next to each field)that includes all user fields populated with the current users information, upon submission user is alerted that the profile is updated and they are taken to the home page */}
-            {/* field to include deleting the profile that will send a delete request to the BE */}
+            <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+                <Grid.Column style={{ maxWidth: 600, margin: 50 }} >
+                    <Form onSubmit={this.handleSubmit}>
+                    <Form.Group widths='equal'>
+                        <Form.Input fluid label='Username' name='username' value={this.state.username} onChange={this.handleChange}/>
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                        <Form.Input label='Password' name='password' type='password' value={this.state.password} onChange={this.handleChange}/>
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                        <Form.Input label='First Name' name='first_name' value={this.state.first_name} onChange={this.handleChange}/>
+                        <Form.Input label='Last Name' name='last_name' value={this.state.last_name} onChange={this.handleChange}/>
+                    </Form.Group>    
+                    <Button.Group>
+                        <Form.Button>Submit</Form.Button>
+                            <Button.Or />
+                        <Link to={`/`}><Button>Back</Button></Link>
+                        </Button.Group>
+                    </Form>
+                </Grid.Column>
+            </Grid>     
         </div>
       );
     }
-  }
+}
   
   const mapStateToProps = (state) => {
     return { 

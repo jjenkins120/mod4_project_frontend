@@ -14,7 +14,7 @@ class NoteContainer extends React.Component {
 
   renderNotes = (notesArray) => {
     return notesArray.map(noteObj => {
-      return <Segment><NoteTile note={noteObj}/></Segment>
+      return <Segment style={{backgroundColor: ''}}><NoteTile note={noteObj}/></Segment>
     })
   }
 
@@ -54,6 +54,16 @@ class NoteContainer extends React.Component {
     }
   }
 
+  containerColor = () => {
+    if (this.state.activeItem === 'All Notes'){
+      return {backgroundColor: ''}
+    } else if (this.state.activeItem === 'Favorites'){
+      return {backgroundColor: ''}
+    } else if (this.state.activeItem === 'My Notes'){
+      return {backgroundColor: ''}
+    }
+  }
+  
   render() {
     const { activeItem } = this.state
     const searchedNotes = this.props.notes.filter(noteObj => {
@@ -69,16 +79,19 @@ class NoteContainer extends React.Component {
             name='All Notes'
             active={activeItem === 'All Notes'}
             onClick={this.handleItemClick}
+            style={{backgroundColor: ''}}
           />
           <Menu.Item
             name='Favorites'
             active={activeItem === 'Favorites'}
             onClick={this.handleItemClick}
+            style={{backgroundColor: ''}}
           />
            <Menu.Item
             name='My Notes'
             active={activeItem === 'My Notes'}
             onClick={this.handleItemClick}
+            style={{backgroundColor: ''}}
           />
           <Menu.Menu position='right'>
             <Menu.Item>
@@ -93,27 +106,8 @@ class NoteContainer extends React.Component {
           </Menu.Menu>
         </Menu>
 
-        <Segment attached='bottom'>
-          {/* <Segment.Group> */}
-             {/* <NoteFilter/> */}
-             {/* NoteTiles go here */}
-             {/* Add pagenation functionality for button below */}
-               {/* <Segment.Group> */}
-              {this.tabDisplay(searchedNotes)}
-                 {/* {this.state.activeItem === "All Notes" ? this.renderNotes(searchedNotes) : this.renderFavorites(searchedNotes)} */}
-               {/* </Segment.Group> */}
-             <Button style={{ margin: 20 }} color='blue'>See more notes</Button>
-             {/* <Pagination
-                boundaryRange={0}
-                defaultActivePage={1}
-                ellipsisItem={null}
-                firstItem={null}
-                lastItem={null}
-                siblingRange={1}
-                totalPages={10}
-              /> */}
-             {/* STRETCH: Add a functionality to filter by favorites, dated created, edited, and tags */}
-           {/* </Segment.Group> */}
+        <Segment attached='bottom' style={this.containerColor()}>
+          {this.tabDisplay(searchedNotes)}
         </Segment>
         </Grid.Column>
       </Grid>

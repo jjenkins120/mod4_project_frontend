@@ -2,12 +2,10 @@ import React from 'react'
 import NavBar from "./NavBar.js"
 import { connect } from 'react-redux'
 import { updateNote } from '../actions/notes'
-import { Form, Button, Icon } from 'semantic-ui-react'
+import { Form, Button, Icon, Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 class EditNote extends React.Component {
-  
-  //NEED TO FIGURE OUT HOW TO POPULATE FORM VALUES WITH THE NOTE INFORMATION TO BEGIN WITH - MIGHT BE ABLE TO PULL IT FROM THE PROPS THAT ARE PASSED DOWN
   
   state = {
     id:'',
@@ -65,34 +63,31 @@ class EditNote extends React.Component {
   }
 
   render(){
-    // this.foundNote()
-    // const splitArray = this.props.location.pathname.split("/")
-    // const Id = parseInt(splitArray[splitArray.length - 1])
-    // const foundNote = this.props.notes.find(noteObj => {
-    //   if (noteObj.id === Id){
-    //     return noteObj
-    //   }
-    // })
       return (
         <div>
-            <NavBar/>
-            
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group widths='equal'>
-                <Form.Input fluid label='Title' placeholder='Title' name='title' value={this.state.title} onChange={this.handleChange}/>
-              </Form.Group>
-              <Form.TextArea label='Content' placeholder='Write your note here...' name='content' value={this.state.content} onChange={this.handleChange}/>
-              <Button.Group>
-                <Form.Button primary>Update</Form.Button>
-              <Button.Or />
-                <Link to={`/shownote/${this.state.id}`}><Button secondary>Back</Button></Link>
-              </Button.Group>
-            </Form>
+          <NavBar/>
+          <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+            <Grid.Column style={{ maxWidth: 600, margin: 50 }} >
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group widths='equal'>
+                  <Form.Input fluid label='Title' placeholder='Title' name='title' value={this.state.title} onChange={this.handleChange}/>
+                </Form.Group>
+                <Form.TextArea label='Content' placeholder='Write your note here...' name='content' value={this.state.content} onChange={this.handleChange}/>
+                <Button.Group>
+                  <Form.Button primary>Update</Form.Button>
+                    <Button.Or />
+                  <Link to={`/shownote/${this.state.id}`}><Button style={{ color: "white"}}>Back</Button></Link>
+                </Button.Group>
+              </Form>
+            </Grid.Column>
+          </Grid >
         </div>
       );
     }
   }
   
+
+
   const mapStateToProps = (state) => {
     return { 
       notes: state.notes,

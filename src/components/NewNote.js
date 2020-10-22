@@ -10,7 +10,8 @@ class NewNote extends React.Component {
     title:'',
     content:'', 
     user_id: this.props.user.id,  
-    favorite: false 
+    favorite: false, 
+    likes: 0 
   }
   
   handleChange = (e) => {
@@ -51,14 +52,13 @@ class NewNote extends React.Component {
                   </Form.Group>
                   <Form.TextArea label='Content' placeholder='Write your note here...' name='content' onChange={this.handleChange}/>
                   <Button.Group>
-                    <Form.Button>Submit</Form.Button>
+                    <Form.Button primary>Submit</Form.Button>
                     <Button.Or />
-                    <Link to={`/home`}><Button>Home</Button></Link>
+                    <Link to={`/home`}><Button style={{ color: "white"}}>Home</Button></Link>
                   </Button.Group>
                 </Form>
               </Grid.Column>
             </Grid >
-            {/* Form that includes input for title field and content field with a submit button. Submit should submit post request, alert the user of new submission and link to either the new show page or the home page */}
         </div>
       );
     }
