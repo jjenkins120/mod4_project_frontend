@@ -14,7 +14,8 @@
     "react-scripts": "3.4.3",
     "redux": "^4.0.5",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.0.0"
+    "semantic-ui-react": "^2.0.0",
+    "uifx": "^2.0.7"
   },
   "scripts": {
     "start": "react-scripts start",

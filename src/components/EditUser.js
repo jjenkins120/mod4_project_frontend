@@ -36,7 +36,6 @@ class EditUser extends React.Component {
         fetch(`http://localhost:3000/users/${this.state.id}`, reqObj)
         .then(resp => resp.json())
         .then(updatedUser => {
-          console.log(updatedUser)
           this.props.updateUser(updatedUser)
           this.props.history.push('/home')
           alert(`Your profile has been updated!`)

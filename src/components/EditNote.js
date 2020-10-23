@@ -2,7 +2,7 @@ import React from 'react'
 import NavBar from "./NavBar.js"
 import { connect } from 'react-redux'
 import { updateNote } from '../actions/notes'
-import { Form, Button, Icon, Grid } from 'semantic-ui-react'
+import { Form, Button, Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 class EditNote extends React.Component {
@@ -55,7 +55,6 @@ class EditNote extends React.Component {
     fetch(`http://localhost:3000/notes/${this.state.id}`, reqObj)
     .then(resp => resp.json())
     .then(updatedNote => {
-      console.log(updatedNote)
       this.props.updateNote(updatedNote)
       this.props.history.push('/home')
       alert(`Note updated!`)

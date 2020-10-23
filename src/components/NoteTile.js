@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Icon, Label, Reveal, Segment,Container } from 'semantic-ui-react'
+import { Button, Icon, Label, Reveal, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addLike } from '../actions/notes'

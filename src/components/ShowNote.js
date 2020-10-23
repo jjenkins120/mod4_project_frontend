@@ -90,12 +90,8 @@ class ShowNote extends React.Component {
   }
 
   showEditBtn = () => {
-    console.log(this.props.user)
-    console.log(this.props.user.id)
-    console.log(this.state.user_id)
     return this.props.user && (this.props.user.id === this.state.user_id) ? <Reveal animated='move down'><Reveal.Content visible><Button style={{ marginLeft: 5, marginRight: 5, width: 100}}><Icon name='edit outline' style={{color:'black'}} /></Button></Reveal.Content><Reveal.Content hidden><Link to={`/editnote/${this.state.id}`}><Button style={{width: 100, color: "black"}}>Edit</Button></Link></Reveal.Content></Reveal> : null
   }
-
 
   render(){
       return (

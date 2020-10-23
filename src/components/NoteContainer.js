@@ -1,8 +1,7 @@
 import React from 'react'
 import NoteTile from "./NoteTile.js"
-import NoteFilter from "./NoteFilter.js"
 import { connect } from 'react-redux'
-import { Menu, Input, Button, Segment, Grid, Pagination, Dropdown } from 'semantic-ui-react'
+import { Menu, Input, Segment, Grid, Dropdown } from 'semantic-ui-react'
 
 
 class NoteContainer extends React.Component {
@@ -43,7 +42,6 @@ class NoteContainer extends React.Component {
     return myNotes
   }
   
-
   findNotes = (notesArray, Id) => {
     switch(this.state.activeItem){
       case 'All Notes':
@@ -55,15 +53,17 @@ class NoteContainer extends React.Component {
     }
   }
 
+  //ISSUE WITH NEWEST AND OLDEST NOT SORTING PROPERLY
   tabDisplay = (notesArray, Id) => {
     const Notes = this.findNotes(notesArray, Id)
     if (this.state.sortBy === 'Sort'){
       return this.renderNotes(Notes)
     } else if (this.state.sortBy === 'Newest'){
-      const newestNotes = Notes.sort((a, b) => b.created_at - a.created_at).reverse()
+      const newestNotes = Notes.sort((a, b) => b.updated_at - a.updated_at).reverse()
+      console.log(newestNotes)
       return this.renderNotes(newestNotes)
     } else if (this.state.sortBy === 'Oldest'){
-      const oldestNotes = Notes.sort((a, b) => b.created_at - a.created_at)
+      const oldestNotes = Notes.sort((a, b) => b.updated_at - a.updated_at)
       return this.renderNotes(oldestNotes)
     } else if (this.state.sortBy === 'Most Liked'){
       const mostLikedNotes = Notes.sort((a, b) => b.likes - a.likes)
@@ -73,16 +73,6 @@ class NoteContainer extends React.Component {
       return this.renderNotes(leastLikedNotes)
     }
   } 
-
-  containerColor = () => {
-    if (this.state.activeItem === 'All Notes'){
-      return {backgroundColor: ''}
-    } else if (this.state.activeItem === 'Favorites'){
-      return {backgroundColor: ''}
-    } else if (this.state.activeItem === 'My Notes'){
-      return {backgroundColor: ''}
-    }
-  }
   
   render() {
     const { activeItem } = this.state
@@ -133,7 +123,7 @@ class NoteContainer extends React.Component {
           </Menu.Menu>
         </Menu>
 
-        <Segment attached='bottom' style={this.containerColor()}>
+        <Segment attached='bottom'>
           {this.tabDisplay(searchedNotes, this.props.user.id)}
         </Segment>
         </Grid.Column>

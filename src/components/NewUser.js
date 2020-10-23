@@ -72,7 +72,7 @@ class NewUser extends React.Component {
                         <Form.Input label='Last Name' name='last_name' value={this.state.last_name} onChange={this.handleChange}/>
                     </Form.Group>    
                     <Button.Group>
-                        <Form.Button>Submit</Form.Button>
+                        <Form.Button primary>Submit</Form.Button>
                             <Button.Or />
                         <Link to={`/`}><Button>Back</Button></Link>
                         </Button.Group>

@@ -18,7 +18,6 @@ class NewNote extends React.Component {
     this.setState({
     [e.target.name]: e.target.value 
     })
-    console.log(this.props.user.id)
   }
 
   handleSubmit = (e) => {
