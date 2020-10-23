@@ -61,7 +61,7 @@ class EditUser extends React.Component {
                             <Form.Input label='Last Name' name='last_name' value={this.state.last_name} onChange={this.handleChange}/>
                         </Form.Group>
                         <Button.Group style={{ margin: 20 }}>
-                            <Form.Button>Update</Form.Button>
+                            <Form.Button primary>Update</Form.Button>
                         <Button.Or />
                             <Link to={`/home`}><Button>Home</Button></Link>
                         </Button.Group>

@@ -12,7 +12,7 @@ class Home extends React.Component {
   
     componentDidMount(){
       const token = localStorage.getItem('app_token')
-
+      console.log(token)
       if (!token){
         this.props.history.push('/')
       } else {
@@ -24,12 +24,11 @@ class Home extends React.Component {
           },
         }
   
-        // fetch('http://localhost:3000/users/current_user', reqObj)
-        // .then(resp => resp.json())
-        // .then(data => {
-        //   console.log(data);
-        //     this.props.currentUser(data.user)
-        // })
+        fetch('http://localhost:3000/users/sessions/current_user', reqObj)
+        .then(resp => resp.json())
+        .then(data => {
+            this.props.currentUser(data.user)
+        })
       }
       fetch('http://localhost:3000/notes')
       .then(resp => resp.json())
@@ -48,8 +47,6 @@ class Home extends React.Component {
     }
   }
   
-
-
   const mapStatetoProps = (state) => {
     return { 
       notes: state.notes

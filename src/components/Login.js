@@ -27,7 +27,6 @@ class Login extends React.Component {
       }, 
       body: JSON.stringify(this.state)
     }
-    console.log(this.state)
     fetch('http://localhost:3000/users/sessions/login', reqObj)
     .then(resp => resp.json())
     .then(user => {

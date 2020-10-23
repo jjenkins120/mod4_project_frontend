@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button, Grid } from 'semantic-ui-react' 
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { newUser } from '../actions/user'
+import { newUser, fetchUserSuccess } from '../actions/user'
 
 
 class NewUser extends React.Component {
@@ -29,16 +29,31 @@ class NewUser extends React.Component {
           },
           body: JSON.stringify(this.state)
         }
-        console.log(this.state)
         fetch(`http://localhost:3000/users`, reqObj)
         .then(resp => resp.json())
         .then(newUser => {
-          console.log(newUser)
           this.props.newUser(newUser)
-          this.props.history.push('/home')
-          alert(`Thanks for signing up!`)
+          this.getToken(this.state)  
+        })   
+    }
+
+    getToken = (userInfo) => {
+        const otherReqObj = {
+            method: 'POST', 
+            headers: {
+            'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify(userInfo)
+        }
+        fetch('http://localhost:3000/users/sessions/login', otherReqObj)
+        .then(resp => resp.json())
+        .then(user => {
+            localStorage.setItem('app_token', user.token)  
+            this.props.fetchUserSuccess(user)
+            this.props.history.push('/home')
+            alert(`Thanks for signing up!`)
         })
-      }
+    }
 
     render(){
       return (
@@ -76,7 +91,8 @@ class NewUser extends React.Component {
   }
   
   const mapDispatchToProps = {
-    newUser
+    newUser, 
+    fetchUserSuccess
   }
 
   export default connect(mapStateToProps, mapDispatchToProps)(NewUser);

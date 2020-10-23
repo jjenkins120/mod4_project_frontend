@@ -6,12 +6,18 @@ import { Menu, Input, Button, Segment, Grid, Pagination, Dropdown } from 'semant
 
 
 class NoteContainer extends React.Component {
-    
+  
   state = { 
     activeItem: 'All Notes',
     searchQuery: '', 
     sortBy: 'Sort' 
   }
+  
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  
+  handleSortClick = (e, { name }) => this.setState({ sortBy: name })
+  
+  handleSearchChange = e => this.setState({ searchQuery: e.target.value })
 
   renderNotes = (notesArray) => {
     return notesArray.map(noteObj => {
@@ -25,7 +31,7 @@ class NoteContainer extends React.Component {
         return noteObj
       }
     })
-    return this.renderNotes(filteredFavorites)
+    return filteredFavorites
   }
 
   renderMyNotes = (notesArray, userId) => {
@@ -34,66 +40,39 @@ class NoteContainer extends React.Component {
         return noteObj
       }
     })
-    return this.renderNotes(myNotes)
+    return myNotes
   }
+  
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
-  handleSearchChange = (e) => {
-    this.setState({
-      searchQuery: e.target.value
-    })
-  }
-
-  tabDisplay = (notesArray) => {
-    if (this.state.activeItem === 'All Notes'){
-      const allNotes = this.renderNotes(notesArray)
-      if (this.state.sortBy === 'Sort'){
-        return allNotes
-      } else if (this.state.sortBy === 'Newest'){
-        const newestAllNotes = allNotes.sort((a, b) => b.created_at - a.created_at).reverse()
-        return newestAllNotes
-      } else if (this.state.sortBy === 'Oldest'){
-        const oldestAllNotes = allNotes.sort((a, b) => b.created_at - a.created_at)
-        return oldestAllNotes
-      } else if (this.state.sortBy === 'Most Liked'){
-        const mostLikedAllNotes = allNotes.sort((a, b) => b.likes - a.likes)
-        return mostLikedAllNotes
-      } else if (this.state.sortBy === 'Least Liked'){
-        return allNotes
-      }
-    } else if (this.state.activeItem === 'Favorites'){
-      const favNotes = this.renderFavorites(notesArray)
-      if (this.state.sortBy === 'Sort'){
-        return favNotes
-      } else if (this.state.sortBy === 'Newest'){
-        const newestFavNotes = favNotes.sort((a, b) => b.created_at - a.created_at).reverse()
-        return newestFavNotes
-      } else if (this.state.sortBy === 'Oldest'){
-        const oldestFavNotes = favNotes.sort((a, b) => b.created_at - a.created_at)
-        return oldestFavNotes
-      } else if (this.state.sortBy === 'Most Liked'){
-        return favNotes
-      } else if (this.state.sortBy === 'Least Liked'){
-        return favNotes
-      }
-    } else if (this.state.activeItem === 'My Notes'){
-      const myNotes = this.renderMyNotes(notesArray, this.props.user.id)
-      if (this.state.sortBy === 'Sort'){
-        return myNotes
-      } else if (this.state.sortBy === 'Newest'){
-        const newestMyNotes = myNotes.sort((a, b) => b.created_at - a.created_at).reverse()
-        return newestMyNotes
-      } else if (this.state.sortBy === 'Oldest'){
-        const oldestMyNotes = myNotes.sort((a, b) => b.created_at - a.created_at)
-        return oldestMyNotes
-      } else if (this.state.sortBy === 'Most Liked'){
-        return myNotes
-      } else if (this.state.sortBy === 'Least Liked'){
-        return myNotes
-      }
+  findNotes = (notesArray, Id) => {
+    switch(this.state.activeItem){
+      case 'All Notes':
+        return notesArray
+      case 'Favorites':
+        return this.renderFavorites(notesArray)
+      case 'My Notes':
+        return this.renderMyNotes(notesArray, Id)
     }
   }
+
+  tabDisplay = (notesArray, Id) => {
+    const Notes = this.findNotes(notesArray, Id)
+    if (this.state.sortBy === 'Sort'){
+      return this.renderNotes(Notes)
+    } else if (this.state.sortBy === 'Newest'){
+      const newestNotes = Notes.sort((a, b) => b.created_at - a.created_at).reverse()
+      return this.renderNotes(newestNotes)
+    } else if (this.state.sortBy === 'Oldest'){
+      const oldestNotes = Notes.sort((a, b) => b.created_at - a.created_at)
+      return this.renderNotes(oldestNotes)
+    } else if (this.state.sortBy === 'Most Liked'){
+      const mostLikedNotes = Notes.sort((a, b) => b.likes - a.likes)
+      return this.renderNotes(mostLikedNotes)
+    } else if (this.state.sortBy === 'Least Liked'){
+      const leastLikedNotes = Notes.sort((a, b) => b.likes - a.likes).reverse()
+      return this.renderNotes(leastLikedNotes)
+    }
+  } 
 
   containerColor = () => {
     if (this.state.activeItem === 'All Notes'){
@@ -105,13 +84,6 @@ class NoteContainer extends React.Component {
     }
   }
   
-  handleSortClick = (e, { name }) => {
-    this.setState({
-      sortBy: name
-    })
-  }
-
-
   render() {
     const { activeItem } = this.state
     const searchedNotes = this.props.notes.filter(noteObj => {
@@ -162,7 +134,7 @@ class NoteContainer extends React.Component {
         </Menu>
 
         <Segment attached='bottom' style={this.containerColor()}>
-          {this.tabDisplay(searchedNotes)}
+          {this.tabDisplay(searchedNotes, this.props.user.id)}
         </Segment>
         </Grid.Column>
       </Grid>
