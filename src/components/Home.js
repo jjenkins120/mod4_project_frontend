@@ -3,6 +3,7 @@ import NavBar from "./NavBar.js"
 import NoteContainer from "./NoteContainer.js"
 import { connect } from 'react-redux'
 import { fetchNotesSuccess } from '../actions/notes'
+import { currentUser } from '../actions/user'
 
 
 
@@ -10,11 +11,31 @@ class Home extends React.Component {
     
   
     componentDidMount(){
-        fetch('http://localhost:3000/notes')
-        .then(resp => resp.json())
-        .then(notes => {
-            this.props.fetchNotesSuccess(notes)
-        })
+      const token = localStorage.getItem('app_token')
+
+      if (!token){
+        this.props.history.push('/')
+      } else {
+  
+        const reqObj = {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+        }
+  
+        // fetch('http://localhost:3000/users/current_user', reqObj)
+        // .then(resp => resp.json())
+        // .then(data => {
+        //   console.log(data);
+        //     this.props.currentUser(data.user)
+        // })
+      }
+      fetch('http://localhost:3000/notes')
+      .then(resp => resp.json())
+      .then(notes => {
+          this.props.fetchNotesSuccess(notes)
+      })
     }
 
     render(){
@@ -36,7 +57,8 @@ class Home extends React.Component {
   }
 
   const mapDispatchToProps = {
-    fetchNotesSuccess
+    fetchNotesSuccess,
+    currentUser
   }
 
   export default connect(mapStatetoProps, mapDispatchToProps)(Home);

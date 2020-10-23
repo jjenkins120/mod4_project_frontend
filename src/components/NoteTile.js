@@ -31,7 +31,7 @@ class NoteTile extends React.Component {
         <div>
             <Reveal animated='move down'>
               <Reveal.Content visible>
-                <Segment style={{ width: 510 }} >
+                <Segment style={{ width: 610, backgroundColor: 'white'}}>
                 <div style={{ fontSize: "large"}}>{this.props.note.title}</div>
                 <div>. . .</div>
                 <div>{this.props.note.content}</div>

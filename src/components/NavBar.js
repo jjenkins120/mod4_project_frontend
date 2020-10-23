@@ -11,11 +11,12 @@ class NavBar extends Component {
   handleClick = () => {
     this.props.userLogout()
     this.props.noteLogout()
+    localStorage.removeItem('app_token')
   }
 
   render() {
     return (
-      <div>
+      <div style={{backgroundColor: 'white'}}>
         <Menu pointing secondary>
     <Link to='/home'><Menu.Item icon> <Icon name='sticky note outline' size='large' style={{ marginRight: 10 }}/>Welcome, {this.props.user.username}</Menu.Item></Link>
           <Menu.Menu position='right'>

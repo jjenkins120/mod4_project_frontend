@@ -36,8 +36,9 @@ class Login extends React.Component {
           error: user.error 
         })
       } else {
-      this.props.fetchUserSuccess(user)
-      this.props.history.push('/home')
+        localStorage.setItem('app_token', user.token)  
+        this.props.fetchUserSuccess(user)
+        this.props.history.push('/home')
       }
     })
   }

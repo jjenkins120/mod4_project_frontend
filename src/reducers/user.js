@@ -10,6 +10,8 @@ const user = (state=initialState, action) => {
             return action.user
         case "USER_LOGOUT":
             return {}
+        case 'CURRENT_USER':
+            return action.user
         default:
             return state
     }

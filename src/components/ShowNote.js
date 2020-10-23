@@ -103,15 +103,15 @@ class ShowNote extends React.Component {
             <NavBar/>
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
               <Grid.Column style={{ maxWidth: 600, margin: 50 }} >
-            <Segment.Group>
-            <Segment textAlign='center' style={{ fontSize: "large"}}><b>{this.state.title}</b></Segment>
+            <Segment.Group style={{ backgroundColor: '#F0F8FF' }}>
+            <Segment textAlign='center' style={{ fontSize: "large", backgroundColor: '#F0F8FF' }}><b>{this.state.title}</b></Segment>
             <Segment.Group>
               <Segment textAlign='left'><b>Content: </b>{this.state.content}</Segment>
               <Segment textAlign='left'><b>Created On: </b>{this.createdAt()}</Segment>
               <Segment textAlign='left'><b>Likes: </b>{this.state.likes}</Segment>
               <Segment textAlign='left'><b>Status: </b>{this.isFavorite()}</Segment>
             </Segment.Group>
-            <Segment.Group textAlign='center'>
+            <Segment.Group textAlign='center' style={{ backgroundColor: 'white' }}>
               <Button.Group style={{ margin: 30 }} textAlign='center'>
                 {this.showEditBtn()}
                 <Reveal animated='move down'>
